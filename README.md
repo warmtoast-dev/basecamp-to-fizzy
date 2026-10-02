@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/logo.svg" alt="Basecamp to Fizzy" width="180" />
+<img src="public/logo.png" alt="Basecamp to Fizzy" width="180" />
 
 # Basecamp → Fizzy
 
@@ -19,15 +19,15 @@ The project is intentionally **self-hosted**. You run your own copy, connect you
 
 ### Mapping
 
-| Basecamp | Fizzy |
-| --- | --- |
-| Card Table name | New board name |
-| Triage | Maybe |
-| Not Now | Not Now |
-| Done | Done |
-| Other columns | Same-named Fizzy workflow columns |
-| On Hold card | Same column + `ON HOLD: ` title prefix |
-| Due date | Appended to card description |
+| Basecamp        | Fizzy                                  |
+| --------------- | -------------------------------------- |
+| Card Table name | New board name                         |
+| Triage          | Maybe                                  |
+| Not Now         | Not Now                                |
+| Done            | Done                                   |
+| Other columns   | Same-named Fizzy workflow columns      |
+| On Hold card    | Same column + `ON HOLD: ` title prefix |
+| Due date        | Appended to card description           |
 
 The importer does not currently migrate assignees, comments, attachments, or existing Fizzy boards.
 
