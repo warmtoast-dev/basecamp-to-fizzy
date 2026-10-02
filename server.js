@@ -20,6 +20,11 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+app.get("/api/session", (req, res) => {
+  const session = getSession(req);
+  res.json({ authenticated: Boolean(session?.basecamp) });
+});
+
 app.post("/auth/logout", (req, res) => {
   const header = req.headers.cookie || "";
   const match = header.match(new RegExp("(?:^|;\\s*)" + SESSION_COOKIE + "=([^;]+)"));
@@ -73,7 +78,7 @@ async function basecampRequest(session, endpoint, options = {}) {
       headers: {
         Authorization: "Bearer " + session.basecamp.accessToken,
         Accept: "application/json",
-        "User-Agent": "Basecamp to Fizzy community importer (https://github.com/warmtoast-dev/portfolio-dev)",
+        "User-Agent": "Basecamp to Fizzy community importer (https://github.com/warmtoast-dev/basecamp-to-fizzy)",
         ...(options.headers || {})
       }
     });
