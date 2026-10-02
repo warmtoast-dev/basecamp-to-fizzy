@@ -1,6 +1,10 @@
 const $ = (id) => document.getElementById(id);
 const state = { cardTables: [] };
 
+function setProgress(active) {
+  $("progress")?.classList.toggle("active", active);
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {
     ...options,
@@ -58,6 +62,7 @@ function show(id) {
 
 async function loadCardTables() {
   show("workspace");
+  setProgress(true);
 
   // Use the original Basecamp request flow, but load projects one at a time.
   // This avoids firing a request for every project simultaneously.
@@ -91,6 +96,7 @@ async function loadCardTables() {
     : '<option value="">No Card Tables found</option>';
 
   $("import").disabled = !state.cardTables.length;
+  setProgress(false);
 }
 
 function showAuthentication(errorMessage = "") {
@@ -118,6 +124,7 @@ async function init() {
 
     await loadCardTables();
   } catch (error) {
+    setProgress(false);
     console.error(error);
 
     if (error.status === 401) {
@@ -136,6 +143,7 @@ async function importSelected() {
   const button = $("import");
   button.disabled = true;
   button.textContent = "Importing…";
+  setProgress(true);
 
   try {
     const data = await api("/api/import", {
@@ -145,12 +153,15 @@ async function importSelected() {
     });
 
     show("done");
+    setProgress(false);
 
     $("result").innerHTML =
       "<strong>" + data.cardsCreated + " cards imported.</strong> " +
       '<a href="' + escapeHtml(data.boardUrl) +
       '" target="_blank" rel="noreferrer">Open the new Fizzy board →</a>';
   } catch (error) {
+    setProgress(false);
+
     if (error.status === 401) {
       showAuthentication("Your Basecamp session has expired. Please reconnect.");
       return;
