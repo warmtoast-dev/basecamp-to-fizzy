@@ -28,10 +28,12 @@ async function api(path, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(
+    const error = new Error(
       data?.error ||
       "Request failed (" + response.status + " " + response.statusText + ")"
     );
+    error.status = response.status;
+    throw error;
   }
 
   if (data === null) {
@@ -55,9 +57,7 @@ function show(id) {
 }
 
 async function loadCardTables() {
-
-  $("start").classList.add("hidden");
-  $("workspace").classList.remove("hidden");
+  show("workspace");
 
   // Use the original Basecamp request flow, but load projects one at a time.
   // This avoids firing a request for every project simultaneously.
@@ -93,6 +93,42 @@ async function loadCardTables() {
   $("import").disabled = !state.cardTables.length;
 }
 
+function showAuthentication(errorMessage = "") {
+  show("start");
+
+  const existing = $("start").querySelector(".auth-message");
+  if (existing) existing.remove();
+
+  if (errorMessage) {
+    const message = document.createElement("p");
+    message.className = "auth-message";
+    message.textContent = errorMessage;
+    $("start").insertBefore(message, $("start").querySelector(".button"));
+  }
+}
+
+async function init() {
+  try {
+    const session = await api("/api/session");
+
+    if (!session.authenticated) {
+      showAuthentication();
+      return;
+    }
+
+    await loadCardTables();
+  } catch (error) {
+    console.error(error);
+
+    if (error.status === 401) {
+      showAuthentication("Your Basecamp session has expired. Please reconnect.");
+      return;
+    }
+
+    alert(error.message);
+  }
+}
+
 async function importSelected() {
   const cardTableId = $("cardTable").value;
   if (!cardTableId) return;
@@ -115,6 +151,11 @@ async function importSelected() {
       '<a href="' + escapeHtml(data.boardUrl) +
       '" target="_blank" rel="noreferrer">Open the new Fizzy board →</a>';
   } catch (error) {
+    if (error.status === 401) {
+      showAuthentication("Your Basecamp session has expired. Please reconnect.");
+      return;
+    }
+
     button.disabled = false;
     button.textContent = "Import to Fizzy";
     alert(error.message);
@@ -132,7 +173,4 @@ function escapeHtml(value) {
 
 $("import")?.addEventListener("click", importSelected);
 
-loadCardTables().catch((error) => {
-  console.error(error);
-  alert(error.message);
-});
+init();
