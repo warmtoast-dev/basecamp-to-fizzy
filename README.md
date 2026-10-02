@@ -1,6 +1,12 @@
+<div align="center">
+
+<img src="public/logo.svg" alt="Basecamp to Fizzy" width="180" />
+
 # Basecamp → Fizzy
 
 A small, free, open-source community tool for importing a Basecamp Card Table into a brand-new Fizzy board.
+
+</div>
 
 The project is intentionally **self-hosted**. You run your own copy, connect your own Basecamp account, and provide your own Fizzy API token. No shared credentials or central database are required.
 
