@@ -1,0 +1,20 @@
+{
+  "name": "basecamp-to-fizzy",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Import a Basecamp Card Table into a new Fizzy board.",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": "https://github.com/warmtoast-dev/portfolio-dev"
+}
