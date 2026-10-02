@@ -57,8 +57,8 @@ Your credentials stay in your own environment. The app keeps Basecamp OAuth toke
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/warmtoast-dev/portfolio-dev.git
-cd portfolio-dev/basecamp-to-fizzy
+git clone https://github.com/warmtoast-dev/basecamp-to-fizzy.git
+cd basecamp-to-fizzy
 ```
 
 ### 2. Install dependencies
@@ -171,7 +171,7 @@ The project has an `AGENTS.md` with the product and architectural constraints th
 - No attachment migration.
 - No database.
 - No hosted multi-user credential management.
-- Basecamp collection pagination should be handled before relying on this for very large Card Tables.
+- Basecamp collection pagination is supported for Card Table card lists and project lists.
 
 ## License
 
