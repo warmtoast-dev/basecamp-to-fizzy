@@ -5,6 +5,27 @@ function setProgress(active) {
   $("progress")?.classList.toggle("active", active);
 }
 
+function celebrate() {
+  const colors = ["#1b9e5a", "#f5c542", "#2563eb", "#e76f51", "#9b5de5"];
+  const count = 90;
+
+  for (let i = 0; i < count; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.style.left = 45 + Math.random() * 10 + "vw";
+    piece.style.background = colors[i % colors.length];
+    piece.style.setProperty("--x", (Math.random() - 0.5) * 500 + "px");
+    piece.style.setProperty("--r", (Math.random() - 0.5) * 720 + "deg");
+    piece.style.setProperty("--delay", Math.random() * 0.18 + "s");
+    piece.style.setProperty("--duration", 0.9 + Math.random() * 0.7 + "s");
+    document.body.appendChild(piece);
+
+    piece.addEventListener("animationend", () => piece.remove(), {
+      once: true
+    });
+  }
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {
     ...options,
@@ -154,6 +175,7 @@ async function importSelected() {
 
     show("done");
     setProgress(false);
+    celebrate();
 
     $("result").innerHTML =
       "<strong>" + data.cardsCreated + " cards imported.</strong> " +
